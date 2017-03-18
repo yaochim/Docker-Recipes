@@ -33,6 +33,10 @@ RUN apk update && apk upgrade && apk add apache2 php7-apache2 curl ca-certificat
 	php7-curl \
 	php7-ctype \
 	php7-session \
-	php7-redis \
 	&& cp /usr/bin/php7 /usr/bin/php \
-    && rm -f /var/cache/apk/*
+    && rm -f /var/cache/apk/* \
+    &&  echo "ServerName localhost" >> /etc/apache2/httpd.conf  \
+    && mkdir -p /run/apache2
+
+EXPOSE 80
+CMD ["/usr/sbin/httpd", "-D", "FOREGROUND"]

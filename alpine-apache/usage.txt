@@ -1,0 +1,5 @@
+Build it:
+docker build -t funkykit/wordpress:v0.01 .
+
+Run it:
+docker run --rm --name fkwptest1 -p 80:80 -d funkykit/wordpress:v0.01
