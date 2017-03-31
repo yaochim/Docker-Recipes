@@ -1,0 +1,6 @@
+
+Docker build
+docker build -t flexstudios/flex-kibana .
+
+Docker run
+docker run --name kibana1 -d -p 5601:5601 -v /root/docker-builds/flex-kibana/files/kibana.yml:/opt/kibana/config/kibana.yml flex-kibana
