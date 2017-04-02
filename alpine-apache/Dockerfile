@@ -3,7 +3,7 @@ FROM alpine
 MAINTAINER Kwok Yao Chim <yaochim8@gmail.com>
 LABEL Description="Funkykit Wordpress container" Author="Kwok Yao Chim <yaochim8@gmail.com>"
 
-RUN apk update && apk upgrade && apk add apache2 php7-apache2 curl ca-certificates git \
+RUN apk update && apk upgrade && apk add bash apache2 php7-apache2 curl ca-certificates git \
 	php7 \
 	php7-xdebug \
 	php7-phar \
