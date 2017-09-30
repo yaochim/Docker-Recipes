@@ -1,0 +1,37 @@
+## Based on Alpine OS with OpenJDK 1.8
+
+####### Building the image
+docker build --build-arg ES_VERSION=5.6.1 -t flexstudios/logstash .
+
+####### Uploading the image to our repository
+docker tag flexstudios/logstash:latest <AWS EC2 service>/<repository>/logstash:latest
+docker push <AWS EC2 service>/<repository>/logstash:latest
+
+####### Using the docker image
+## A docker network must created first in order to allow the ELK stack to comunicate with each other
+docker network create elk-network
+
+## create folders
+mkdir -p /opt/docker-volumes/logstash/{config,data,logs}
+mkdir -p /opt/docker-volumes/logstash/config/{config,conf.d,patterns}
+
+## Drop in any filter config files into /opt/docker-volumes/logstash/config/conf.d , remember to edit any config files for the output plugins to point to other container names
+## eg. elasticsearch.
+## Drop in any custom grok pattern files into /opt/docker-volumes/logstash/config/patterns/
+
+
+####### Creating a container from local image
+docker run -d --name logstash1 -p 5044:5044 --network elk-network \
+  -v /opt/docker-volumes/logstash/logstash.yml:/opt/logstash/config/logstash.yml \
+  -v /opt/docker-volumes/logstash/files/conf.d:/opt/logstash/conf.d \
+  -v /opt/docker-volumes/logstash/files/patterns:/opt/logstash/patterns
+  logstash
+
+####### Creating container from fivium AWS container repository
+docker run --name logstash1 -d -p 5044:5044 --network elk-network \
+  -v /var/docker-volumes/logstash/config/config:/opt/logstash/config \
+  -v /var/docker-volumes/logstash/config/conf.d:/opt/logstash/conf.d \
+  -v /var/docker-volumes/logstash/config/patterns:/opt/logstash/patterns \
+  -v /var/docker-volumes/logstash/logs:/opt/logstash/logs \
+  <AWS EC2 service>/<repository>/logstash
+

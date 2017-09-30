@@ -1,6 +1,0 @@
-
-Docker build
-docker built -t flexstudios/flex-es .
-
-Docker run
-docker run --name elasticsearch1 -d -p 9201:9200 -v /opt/elasticsearch/data:/usr/share/elasticsearch/data -v /root/docker-builds/flex-es/files/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml  flex-es

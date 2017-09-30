@@ -1,0 +1,35 @@
+
+## Based on Alpine OS with OpenJDK8
+
+####### Building the image.
+docker build --build-arg ES_VERSION=5.6.1 -t flexstudios/elasticsearch .
+
+####### Uploading the image to our repository
+docker tag flexstudios/elasticsearch:latest <AWS EC2 service>/<repository>/elasticsearch:latest
+docker push <AWS EC2 service>/<repository>/elasticsearch:latest
+
+####### Using the docker image
+## A docker network needs to be created first
+docker network create elk-network
+
+## create folders
+mkdir -p /opt/docker-volumes/elasticsearch/{config,data,logs}
+
+## Edit the config file elasticsearch.yml with your desired settings.
+vim /opt/docker-volumes/elasticsearch/config/elasticsearch.yml
+
+####### Creating a container from local image
+docker run --name elasticsearch1 -d -p 9201:9200 -p 9301:9300 --network elk-network \
+  --cap-add=IPC_LOCK --ulimit memlock=-1:-1 --ulimit nofile=65536:65536 \
+  -v /opt/docker-volumes/elasticsearch/data:/opt/elasticsearch/data \
+  -v /opt/docker-volumes/elasticsearch/elasticsearch.yml:/opt/elasticsearch/config/elasticsearch.yml \
+  elasticsearch
+
+####### Creating container from fivium AWS container repository
+docker run --name elasticsearch1 -d -p 9200:9200 -p 9300:9300 --network elk-network \
+  --cap-add=IPC_LOCK --ulimit memlock=-1:-1 --ulimit nofile=65536:65536 \
+  -v /var/docker-volumes/elasticsearch/config:/opt/elasticsearch/config \
+  -v /var/docker-volumes/elasticsearch/data:/opt/elasticsearch/data \
+  -v /var/docker-volumes/elasticsearch/logs:/opt/elasticsearch/logs \
+  <AWS EC2 service>/<repository>/elasticsearch
+
