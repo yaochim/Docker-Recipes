@@ -1,6 +1,6 @@
 FROM openjdk:8-jdk-alpine
-LABEL Description="Docker image for basic Logstash service" Vendor="FlexStudios" Version="5.6.1" authors="Kwok Yao Chim <yaochim8@gmail.com>"
 ARG ES_VERSION=5.6.1
+LABEL Description="Docker image for basic Logstash service" Vendor="FlexStudios" Version="${ES_VERSION}" authors="Kwok Yao Chim <yaochim8@gmail.com>"
 ENV TZONE="Europe/London" ES_VERSION="${ES_VERSION}" JAVA_HOME="/usr/lib/jvm/default-jvm"
 RUN apk add --update bash ca-certificates wget tzdata \
     && update-ca-certificates \

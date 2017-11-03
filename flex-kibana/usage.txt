@@ -4,3 +4,26 @@ docker build -t flexstudios/flex-kibana .
 
 Docker run
 docker run --name kibana1 -d -p 5601:5601 -v /root/docker-builds/flex-kibana/files/kibana.yml:/opt/kibana/config/kibana.yml flex-kibana
+
+
+
+## Based on Alpine OS
+
+####### Building the image
+docker build --build-arg ES_VERSION=5.6.1 -t flexstudios/kibana .
+
+####### Uploading the image to our repository
+docker tag flexstudios/kibana:latest <AWS EC2 service>/<repository>/kibana:latest
+docker push <AWS EC2 service>/<repository>/kibana:latest
+
+####### Using the docker image
+## A docker network must created first in order to allow the ELK stack to comunicate with each other
+docker network create elk-network
+
+## create folders
+mkdir -p /opt/docker-volumes/kibana/{config,data,logs}
+
+## Drop in kibana.yaml config file into /opt/docker-volumes/kibana/config/
+
+
+MORE TODO
