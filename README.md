@@ -1,2 +1,2 @@
-# docker
-My Docker Stuff
+# Docker
+Some Docker recipes
