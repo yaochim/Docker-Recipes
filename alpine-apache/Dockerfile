@@ -1,7 +1,6 @@
-FROM alpine
+FROM alpine:latest
 
-MAINTAINER Kwok Yao Chim <yaochim8@gmail.com>
-LABEL Description="Funkykit Wordpress container" Author="Kwok Yao Chim <yaochim8@gmail.com>"
+LABEL Description="Funkykit Alpine-Apache-PHP container" Vendor="FlexStudios" authors="Kwok Yao Chim <yaochim8@gmail.com>"
 
 RUN apk update && apk upgrade && apk add bash apache2 php7-apache2 curl ca-certificates git \
 	php7 \
