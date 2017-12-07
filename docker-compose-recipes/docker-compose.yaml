@@ -1,0 +1,77 @@
+version: '2.1'
+
+## Author: Kwok Yao Chim <yaochim8@gmail.com>
+## Desc: Orchestrate Elastic Stack
+### This compose file is not yet tested
+
+networks:
+  # Create network named elk-network with bridge driver
+  elk-network:
+    driver: bridge
+
+services:
+
+  elasticsearch:
+    container_name: elasticsearch01
+#    image: <AWS EC2 service>/<repository>/elasticsearch:latest
+    image: fivium/elasticsearch:6.0.0
+    volumes:
+      - /opt/docker-volumes/elasticsearch/config:/opt/elasticsearch/config
+      - /opt/docker-volumes/elasticsearch/data:/opt/elasticsearch/data
+      - /opt/docker-volumes/elasticsearch/logs:/opt/elasticsearch/logs
+    networks:
+      - elk-network
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    cap_add:
+      - IPC_LOCK
+    ulimits:
+      memlock: -1
+      nofile:
+        hard: 65536
+        soft: 65536
+
+  logstash:
+    container_name: logstash01
+#    image: <AWS EC2 service>/<repository>/logstash:latest
+    image: fivium/logstash:6.0.0
+    volumes:
+      - /opt/docker-volumes/logstash/config/config:/opt/logstash/config
+      - /opt/docker-volumes/logstash/config/conf.d:/opt/logstash/conf.d
+      - /opt/docker-volumes/logstash/config/patterns:/opt/logstash/patterns
+      - /opt/docker-volumes/logstash/logs:/opt/logstash/logs
+    networks:
+      - elk-network
+    ports:
+      - "5044:5044"
+    environment:
+      TZ: 'Europe/London'
+    depends_on:
+      - elasticsearch
+
+  kibana:
+    container_name: kibana01
+#    image: <AWS EC2 service>/<repository>/kibana:latest
+    image: fivium/kibana:6.0.0
+    volumes:
+      - /opt/docker-volumes/kibana/config:/opt/kibana/config
+      - /opt/docker-volumes/kibana/logs:/opt/kibana/logs
+    networks:
+      - elk-network
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch
+
+#  elastalert:
+#    container_name: elastalert01
+#    image: <AWS EC2 service>/<repository>/elastalert:latest
+#    volumes:
+#      - /opt/docker-volumes/elastalert/config:/opt/elastalert/config
+#      - /opt/docker-volumes/elastalert/rules:/opt/elastalert/rules
+#      - /opt/docker-volumes/elastalert/log:/opt/elastalert/log
+#    networks:
+#      - elk-network
+#    depends_on:
+#      - elasticsearch
