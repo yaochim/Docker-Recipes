@@ -4,5 +4,7 @@
 # in `lib/` subdirectory.
 #
 # Note: The `lib` directory is added to `sys.path` by `appengine_config.py`.
-flask
-sqlalchemy
+Flask
+Jinja2
+Werkzeug
+SQLAlchemy
