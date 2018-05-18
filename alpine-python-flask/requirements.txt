@@ -5,6 +5,6 @@
 #
 # Note: The `lib` directory is added to `sys.path` by `appengine_config.py`.
 Flask
-Jinja2
-Werkzeug
-SQLAlchemy
+Flask-WTF
+Flask-SQLAlchemy
+Flask-Bcrypt
