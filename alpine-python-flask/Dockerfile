@@ -1,12 +1,12 @@
-FROM python:3.6.5-alpine3.7
+FROM python:3.6-alpine
 
-LABEL Description="FlexStudios base Alpine3.7+Python3.6.5 container with bash" Vendor="FlexStudios" authors="Kwok Yao Chim <yaochim8@gmail.com>" version="0.01"
+LABEL Description="FlexStudios base Alpine3.7+Python3.6.5 container with bash" Vendor="FlexStudios" authors="Kwok Yao Chim <yaochim8@gmail.com>" version="0.02"
 
 RUN apk update && apk upgrade \
-    && apk add --update bash \
+    && apk add --update bash curl gcc musl-dev python3-dev libffi-dev \
     && rm -rf /var/cache/apk/*
 
 COPY requirements.txt /
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip3 install --no-cache-dir -r requirements.txt
 
 WORKDIR /usr/src/app

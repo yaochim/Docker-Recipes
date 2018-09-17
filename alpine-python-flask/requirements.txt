@@ -4,7 +4,9 @@
 # in `lib/` subdirectory.
 #
 # Note: The `lib` directory is added to `sys.path` by `appengine_config.py`.
+#setuptools
 Flask
 Flask-WTF
 Flask-SQLAlchemy
 Flask-Bcrypt
+Flask-SocketIO 
